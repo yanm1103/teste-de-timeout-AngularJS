@@ -1,3 +1,5 @@
+[Acesse o teste aqui.](https://yanm1103.github.io/teste-de-timeout-AngularJS/$timeout_test.html)
+
 ## Objetivo
 
 Demonstrar, de forma prática, como o AngularJS reage a alterações de estado feitas fora do seu contexto, evidenciando quando o digest cycle é automático e quando é necessário acioná-lo manualmente.
@@ -18,4 +20,4 @@ Demonstrar, de forma prática, como o AngularJS reage a alterações de estado f
 
 ## Como utilizar
 
-Acesse o link, utilize os botões disponíveis e observe a diferença entre a execução do código, os logs gerados e a atualização visual.
+[Acesse o link](https://yanm1103.github.io/teste-de-timeout-AngularJS/$timeout_test.html), utilize os botões disponíveis e observe a diferença entre a execução do código, os logs gerados e a atualização visual.
