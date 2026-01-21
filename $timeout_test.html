@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+    <head>
+        <meta charset="utf-8" />
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <script>
+            angular.module('app', [])
+                .controller('TestCtrl', function($scope, $timeout) {
+
+                    $scope.resetValue = function() {
+                        $scope.value = 'Inicial';
+                    };
+
+                    const log = document.getElementById("log");
+
+                    $scope.writeToLog = function(str) {
+                        const newLogEntry = document.createElement("div");
+                        const dt = new Date();
+                        const newLogEntryText = document.createTextNode(`${dt.toISOString()} - ${str}`);
+                        newLogEntry.appendChild(newLogEntryText);
+                        log.append(newLogEntry);
+                    };
+
+                    // 1️ Código fora do Angular, sem $apply
+                    $scope.externalWithoutApply = function() {
+                        $scope.writeToLog('Clicou no botão: mudou sem apply');
+                        setTimeout(() => {
+                            $scope.value = new Date().toISOString() + ' - mudou sem apply';
+                            $scope.writeToLog('mudou sem apply. Note se o valor foi realmente alterado visualmente.');
+                        }, 100);
+                    };
+
+                    // 2️ Código fora do Angular, com $apply
+                    $scope.externalWithApply = function() {
+                        setTimeout(() => {
+                            $scope.writeToLog('Clicou no botão: mudou com apply');
+                            $scope.value = new Date().toISOString() + ' - mudou com apply';
+                            $scope.$apply(() => {
+                                $scope.writeToLog('mudou com apply');
+                            });
+                        }, 100);
+                    };
+
+                    // 3️ Código fora do Angular, usando $timeout
+                    $scope.externalWithTimeout = function() {
+                        $scope.writeToLog('Clicou no botão: mudou com $timeout');
+                        $timeout(() => {
+                            $scope.writeToLog('mudou com $timeout');
+                            $scope.value = new Date().toISOString() + ' - mudou com $timeout';
+                        }, 100);
+                    };
+
+                    // 3️ Código fora do Angular, usando $timeout e $apply
+                    $scope.externalWithTimeoutApply = function() {
+                        $scope.writeToLog('Clicou no botão: mudou com $timeout ➡️ $apply');
+                        $timeout(() => {
+                            $scope.writeToLog('mudou com $timeout (será chamado o $apply)');
+                            $scope.value = new Date().toISOString() + ' - mudou com $timeout (será chamado o $apply)';
+                            setTimeout(() => {
+                                $scope.$apply(() => {
+                                    $scope.writeToLog('$apply chamado');
+                                    // $scope.value = new Date().toISOString() + ' - mudou com $timeout ➡️ $apply';
+                                });
+                            }, 200);
+                        }, 100);
+                    };
+
+                    $scope.forceScopeApply = function() {
+                        $scope.writeToLog('Forçando $scope.$apply. VERIFIQUE O CONSOLE!');
+                        $scope.$apply();
+                    };
+
+                    $scope.forceTimeoutScopeApply = function() {
+                        $scope.writeToLog('Forçando $timeout');
+                        $timeout(() => {});
+                    };
+
+                    $scope.clearLogs = function() {
+                        log.innerHTML = '';
+                    };
+
+                    $scope.resetValue();
+                });
+        </script>
+        <style>
+            .log {
+                padding: 5px;
+                margin-top: 10px;
+                border: 5px double #858585;
+                border-radius: 10px;
+                background-color: #DEDEDE;
+                resize: vertical;
+                max-height: 200px;
+                min-height: 50px;
+                overflow-y: scroll;
+            }
+
+            .btn {
+                margin: 0px 2px;
+                padding: 5px;
+            }
+
+            .badge {
+                background-color: rgb(73, 73, 148);
+                color: white;
+                padding: 0.3em;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+
+    <body ng-controller="TestCtrl">
+        <div>
+            <h3>Teste de $scope e $timeout com variáveis bindadas no template</h3>
+            <div style="margin: 20px 0px; display: flex; justify-content: space-between;">
+                <div>
+                    <strong>Valor: </strong> <span ng-bind="value" class="badge"></span>
+                </div>
+                <button class="btn" ng-click="resetValue()">🗑️ Resetar valor</button>
+            </div>
+
+            <hr>
+
+            <div style="display: flex; flex-direction: row; margin: 10px 0px">
+                <button class="btn" ng-click="externalWithoutApply()">
+                    Gerar alteração externa SEM $apply
+                </button>
+
+                <button class="btn" ng-click="externalWithApply()">
+                    Gerar alteração externa COM $apply
+                </button>
+
+                <button class="btn" ng-click="externalWithTimeout()">
+                    Gerar alteração externa COM $timeout
+                </button>
+
+                <button class="btn" ng-click="externalWithTimeoutApply()">
+                    Gerar alteração externa COM $timeout (e $apply dentro)
+                </button>
+            </div>
+            <hr>
+            <div style="display: flex; flex-direction: row; margin: 10px 0px">
+                <button class="btn" ng-click="forceScopeApply()">
+                    💣 $apply (Erro)
+                </button>
+
+                <button class="btn" ng-click="forceTimeoutScopeApply()">
+                    ♻️ $timeout
+                </button>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <h4 style="margin-bottom: 0px">Registro</h4>
+            <button ng-click="clearLogs()">🗑️ Limpar registro</button>
+        </div>
+        <div id="log" class="log"></div>
+        <hr />
+        <div style="display: flex; flex-direction: column;">
+            <small>
+                Teste criado por Yan em 21/01/2026.
+            </small>
+            <small>
+                <strong>Conclusão:</strong> Devido ao fato do log de $apply aparecer depois do elemento já ter seu conteúdo alterado ao clicar no botão de $timeout + $apply, realmente não parece necessário chamar o $apply após rodar um $timeout.
+            </small>
+        </div>
+    </body>
+
+</html>
