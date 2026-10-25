@@ -17,6 +17,10 @@
     --log-text: var(--ps2-white);
     --hr: rgba(160, 220, 255, 0.35);
 
+    /* texto corrido (descrições e rodapé): branco no escuro, preto no claro */
+    --body-text: var(--ps2-white);
+    --body-outline: var(--ps2-outline);
+
     /* gelo */
     --ice-fill: rgba(170, 220, 255, 0.18);
     --ice-fill-hover: rgba(190, 230, 255, 0.30);
@@ -43,6 +47,8 @@
         --panel-border: rgba(255, 255, 255, 0.6);
         --log-bg: rgba(10, 30, 80, 0.55);
         --hr: rgba(255, 255, 255, 0.6);
+        --body-text: #0a0d2a;
+        --body-outline: #fff;
         --ice-fill: rgba(255, 255, 255, 0.28);
         --ice-fill-hover: rgba(255, 255, 255, 0.42);
         --ice-edge: rgba(255, 255, 255, 0.95);
@@ -60,6 +66,8 @@
     --panel-border: rgba(255, 255, 255, 0.6);
     --log-bg: rgba(10, 30, 80, 0.55);
     --hr: rgba(255, 255, 255, 0.6);
+    --body-text: #0a0d2a;
+    --body-outline: #fff;
     --ice-fill: rgba(255, 255, 255, 0.28);
     --ice-fill-hover: rgba(255, 255, 255, 0.42);
     --ice-edge: rgba(255, 255, 255, 0.95);
@@ -216,6 +224,7 @@ small {
     flex: 1 1 260px;
     font-size: 0.9rem;
     line-height: 1.4;
+    color: var(--body-text);
 }
 
 .header {
@@ -234,6 +243,16 @@ small {
     flex-direction: column;
     gap: 6px;
     margin-top: 12px;
+    color: var(--body-text);
+}
+
+.footer .outlined {
+    -webkit-text-stroke-color: var(--body-outline);
+    text-shadow:
+        1px 1px 0 var(--body-outline),
+        -1px 1px 0 var(--body-outline),
+        1px -1px 0 var(--body-outline),
+        -1px -1px 0 var(--body-outline);
 }
 
 /* ===== Badge ===== */
