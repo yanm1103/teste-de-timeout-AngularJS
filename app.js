@@ -11,7 +11,7 @@ angular.module('app', [])
         function writeToLog(str) {
             const newLogEntry = document.createElement('div');
             const time = new Date().toLocaleTimeString('pt-BR', { fractionalSecondDigits: 3 });
-            newLogEntry.appendChild(document.createTextNode(`${time} - ${str}`));
+            newLogEntry.appendChild(document.createTextNode(`${time}ms | ${str}`));
             log.append(newLogEntry);
         }
 
