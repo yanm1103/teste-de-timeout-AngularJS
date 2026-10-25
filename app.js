@@ -10,12 +10,16 @@ angular.module('app', [])
         // mesmo quando a alteração acontece fora do digest do Angular.
         function writeToLog(str) {
             const newLogEntry = document.createElement('div');
-            const time = new Date().toLocaleTimeString('pt-BR', { fractionalSecondDigits: 3 });
-            newLogEntry.appendChild(document.createTextNode(`${time}ms | ${str}`));
+            const time = new Date().toLocaleTimeString('pt-BR', {
+                hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3,
+            });
+            newLogEntry.appendChild(document.createTextNode(`${time} | ${str}`));
             log.append(newLogEntry);
         }
 
-        // 1. Código fora do Angular, sem $apply
+        // ===== Fora do Angular (setTimeout) =====
+
+        // 1. setTimeout sem $apply: a view não atualiza
         $scope.externalWithoutApply = function () {
             writeToLog('Clicou no botão: mudou sem apply');
             setTimeout(() => {
@@ -24,7 +28,7 @@ angular.module('app', [])
             }, 100);
         };
 
-        // 2. Código fora do Angular, com $apply
+        // 2. setTimeout com $apply: dispara um digest a partir do $rootScope
         $scope.externalWithApply = function () {
             writeToLog('Clicou no botão: mudou com apply');
             setTimeout(() => {
@@ -35,7 +39,30 @@ angular.module('app', [])
             }, 100);
         };
 
-        // 3. Código fora do Angular, usando $timeout
+        // 3. setTimeout com $digest: percorre só este escopo e os filhos
+        $scope.externalWithDigest = function () {
+            writeToLog('Clicou no botão: mudou com $digest');
+            setTimeout(() => {
+                $scope.value = new Date().toISOString() + ' - mudou com $digest';
+                writeToLog('mudou com $digest (só este escopo e os filhos)');
+                $scope.$digest();
+            }, 100);
+        };
+
+        // 4. setTimeout com $evalAsync: sem digest em andamento, agenda um novo
+        $scope.externalWithEvalAsync = function () {
+            writeToLog('Clicou no botão: mudou com $evalAsync');
+            setTimeout(() => {
+                $scope.$evalAsync(() => {
+                    $scope.value = new Date().toISOString() + ' - mudou com $evalAsync';
+                    writeToLog('mudou com $evalAsync (digest novo agendado)');
+                });
+            }, 100);
+        };
+
+        // ===== Serviços do Angular =====
+
+        // 5. $timeout: o callback já roda dentro de um digest
         $scope.externalWithTimeout = function () {
             writeToLog('Clicou no botão: mudou com $timeout');
             $timeout(() => {
@@ -44,7 +71,7 @@ angular.module('app', [])
             }, 100);
         };
 
-        // 4. Código fora do Angular, usando $timeout e $apply
+        // 6. $timeout seguido de $apply: o $apply é redundante
         $scope.externalWithTimeoutApply = function () {
             writeToLog('Clicou no botão: mudou com $timeout ➡️ $apply');
             $timeout(() => {
@@ -58,7 +85,15 @@ angular.module('app', [])
             }, 100);
         };
 
-        // 5. $apply forçado durante um digest (gera erro)
+        // 7. $timeout vazio: apenas agenda um digest
+        $scope.forceTimeoutScopeApply = function () {
+            writeToLog('Forçando $timeout');
+            $timeout();
+        };
+
+        // ===== Dentro do digest (ng-click) =====
+
+        // 8. $apply forçado durante um digest: gera erro
         $scope.forceScopeApply = function () {
             writeToLog('Forçando $scope.$apply. VERIFIQUE O CONSOLE!');
             try {
@@ -68,10 +103,24 @@ angular.module('app', [])
             }
         };
 
-        // 6. $timeout vazio (apenas agenda um digest)
-        $scope.forceTimeoutScopeApply = function () {
-            writeToLog('Forçando $timeout');
-            $timeout();
+        // 9. $evalAsync durante um digest: roda no digest atual, sem erro
+        $scope.forceEvalAsync = function () {
+            writeToLog('Chamando $evalAsync dentro do digest');
+            $scope.$evalAsync(() => {
+                $scope.value = new Date().toISOString() + ' - mudou com $evalAsync no digest atual';
+                writeToLog('$evalAsync executado (mesmo digest, sem erro)');
+            });
+            writeToLog('ng-click terminou; o $evalAsync ainda vai rodar neste digest');
+        };
+
+        // 10. $applyAsync durante um digest: agenda um $apply para daqui a ~10ms, sem erro
+        $scope.forceApplyAsync = function () {
+            writeToLog('Chamando $applyAsync dentro do digest');
+            $scope.$applyAsync(() => {
+                $scope.value = new Date().toISOString() + ' - mudou com $applyAsync';
+                writeToLog('$applyAsync executado (digest novo, ~10ms depois)');
+            });
+            writeToLog('ng-click terminou; o $applyAsync roda em um digest futuro');
         };
 
         $scope.clearLogs = function () {

@@ -6,17 +6,33 @@ Demonstrar, de forma prática, como o AngularJS reage a alterações de estado f
 
 ## Cenários testados
 
-- Alteração de `$scope` via `setTimeout` sem `$apply`
-- Alteração de `$scope` via `setTimeout` com `$apply`
+Fora do Angular (`setTimeout`):
+
+- Alteração de `$scope` sem `$apply`
+- Alteração de `$scope` com `$apply`
+- Alteração de `$scope` com `$digest`
+- Alteração de `$scope` com `$evalAsync`
+
+Serviços do Angular:
+
 - Alteração de `$scope` via `$timeout`
 - Uso combinado de `$timeout` e `$apply`
-- Execução direta de `$scope.$apply` durante um digest
+- `$timeout` vazio, só para agendar um digest
+
+Dentro do digest (`ng-click`):
+
+- Execução direta de `$scope.$apply`
+- `$evalAsync`
+- `$applyAsync`
 
 ## Conclusões
 
 - `$timeout` executa o callback dentro do ciclo de digest do AngularJS
 - O uso de `$apply` após `$timeout` é redundante
 - `$apply` isolado joga o erro `digest already in progress` no console
+- `$digest` atualiza a view, mas só percorre o escopo atual e os filhos
+- `$evalAsync` roda no digest atual se houver um em andamento; senão, agenda um novo
+- `$applyAsync` agrupa chamadas em um único `$apply` cerca de 10ms depois, sem conflitar com o digest atual
 
 ## Como utilizar
 
