@@ -90,7 +90,7 @@ body {
 }
 
 .container {
-    max-width: 960px;
+    max-width: 1280px;
     margin: 0 auto;
 }
 
@@ -159,6 +159,38 @@ small {
 
 .row--between {
     justify-content: space-between;
+}
+
+/* Duas colunas: cenários à esquerda, registro à direita.
+   Em largura de celular vira uma coluna só. */
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.layout__log {
+    position: sticky;
+    top: 16px;
+}
+
+.layout__log .log {
+    max-height: calc(100vh - 120px);
+}
+
+@media (max-width: 767px) {
+    .layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .layout__log {
+        position: static;
+    }
+
+    .layout__log .log {
+        max-height: 220px;
+    }
 }
 
 .category {

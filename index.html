@@ -33,69 +33,73 @@
 
             <hr>
 
-            <section class="category">
-                <h2>Fora do Angular (setTimeout)</h2>
-                <div class="scenario">
-                    <button class="btn btn--primary" ng-click="externalWithoutApply()">SEM $apply</button>
-                    <span class="scenario__desc">Altera o $scope fora do digest: a view não atualiza</span>
-                </div>
-                <div class="scenario">
-                    <button class="btn btn--primary" ng-click="externalWithApply()">COM $apply</button>
-                    <span class="scenario__desc">Dispara um digest a partir do $rootScope</span>
-                </div>
-                <div class="scenario">
-                    <button class="btn btn--primary" ng-click="externalWithDigest()">COM $digest</button>
-                    <span class="scenario__desc">Dispara um digest só neste escopo e nos filhos</span>
-                </div>
-                <div class="scenario">
-                    <button class="btn btn--primary" ng-click="externalWithEvalAsync()">COM $evalAsync</button>
-                    <span class="scenario__desc">Sem digest em andamento, agenda um novo no próximo tick</span>
-                </div>
-            </section>
+            <div class="layout">
+                <div class="layout__scenarios">
+                    <section class="category">
+                        <h2>Fora do Angular (setTimeout)</h2>
+                        <div class="scenario">
+                            <button class="btn btn--primary" ng-click="externalWithoutApply()">SEM $apply</button>
+                            <span class="scenario__desc">Altera o $scope fora do digest: a view não atualiza</span>
+                        </div>
+                        <div class="scenario">
+                            <button class="btn btn--primary" ng-click="externalWithApply()">COM $apply</button>
+                            <span class="scenario__desc">Dispara um digest a partir do $rootScope</span>
+                        </div>
+                        <div class="scenario">
+                            <button class="btn btn--primary" ng-click="externalWithDigest()">COM $digest</button>
+                            <span class="scenario__desc">Dispara um digest só neste escopo e nos filhos</span>
+                        </div>
+                        <div class="scenario">
+                            <button class="btn btn--primary" ng-click="externalWithEvalAsync()">COM $evalAsync</button>
+                            <span class="scenario__desc">Sem digest em andamento, agenda um novo no próximo tick</span>
+                        </div>
+                    </section>
 
-            <hr>
+                    <hr>
 
-            <section class="category">
-                <h2>Serviços do Angular</h2>
-                <div class="scenario">
-                    <button class="btn btn--primary" ng-click="externalWithTimeout()">$timeout</button>
-                    <span class="scenario__desc">Agenda um novo digest sempre</span>
-                </div>
-                <div class="scenario">
-                    <button class="btn btn--primary" ng-click="externalWithTimeoutApply()">$timeout + $apply</button>
-                    <span class="scenario__desc">O $apply depois do $timeout é redundante</span>
-                </div>
-                <div class="scenario">
-                    <button class="btn btn--primary" ng-click="forceTimeoutScopeApply()">♻️ $timeout vazio</button>
-                    <span class="scenario__desc">Sem callback, só agenda um digest</span>
-                </div>
-            </section>
+                    <section class="category">
+                        <h2>Serviços do Angular</h2>
+                        <div class="scenario">
+                            <button class="btn btn--primary" ng-click="externalWithTimeout()">$timeout</button>
+                            <span class="scenario__desc">Agenda um novo digest sempre</span>
+                        </div>
+                        <div class="scenario">
+                            <button class="btn btn--primary" ng-click="externalWithTimeoutApply()">$timeout + $apply</button>
+                            <span class="scenario__desc">O $apply depois do $timeout é redundante</span>
+                        </div>
+                        <div class="scenario">
+                            <button class="btn btn--primary" ng-click="forceTimeoutScopeApply()">♻️ $timeout vazio</button>
+                            <span class="scenario__desc">Sem callback, só agenda um digest</span>
+                        </div>
+                    </section>
 
-            <hr>
+                    <hr>
 
-            <section class="category">
-                <h2>Dentro do digest (ng-click)</h2>
-                <div class="scenario">
-                    <button class="btn btn--danger" ng-click="forceScopeApply()">💣 $apply (Erro)</button>
-                    <span class="scenario__desc">Já existe um digest em andamento: lança "$digest already in progress"</span>
+                    <section class="category">
+                        <h2>Dentro do digest (ng-click)</h2>
+                        <div class="scenario">
+                            <button class="btn btn--danger" ng-click="forceScopeApply()">💣 $apply (Erro)</button>
+                            <span class="scenario__desc">Já existe um digest em andamento: lança "$digest already in progress"</span>
+                        </div>
+                        <div class="scenario">
+                            <button class="btn btn--primary" ng-click="forceEvalAsync()">$evalAsync</button>
+                            <span class="scenario__desc">Tenta agendar a expressão do seu callback no digest atual ou agenda um novo</span>
+                        </div>
+                        <div class="scenario">
+                            <button class="btn btn--primary" ng-click="forceApplyAsync()">$applyAsync</button>
+                            <span class="scenario__desc">Agenda um $apply para ~10ms depois, sem conflitar com o digest atual</span>
+                        </div>
+                    </section>
                 </div>
-                <div class="scenario">
-                    <button class="btn btn--primary" ng-click="forceEvalAsync()">$evalAsync</button>
-                    <span class="scenario__desc">Tenta agendar a expressão do seu callback no digest atual ou agenda um novo</span>
-                </div>
-                <div class="scenario">
-                    <button class="btn btn--primary" ng-click="forceApplyAsync()">$applyAsync</button>
-                    <span class="scenario__desc">Agenda um $apply para ~10ms depois, sem conflitar com o digest atual</span>
-                </div>
-            </section>
 
-            <hr>
-
-            <div class="row row--between">
-                <h4>Registro</h4>
-                <button class="btn btn--small" ng-click="clearLogs()">🗑️ Limpar registro</button>
+                <aside class="layout__log">
+                    <div class="row row--between">
+                        <h4>Registro</h4>
+                        <button class="btn btn--small" ng-click="clearLogs()">🗑️ Limpar registro</button>
+                    </div>
+                    <div id="log" class="log"></div>
+                </aside>
             </div>
-            <div id="log" class="log"></div>
 
             <hr />
 
