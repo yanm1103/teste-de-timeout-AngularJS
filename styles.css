@@ -228,6 +228,32 @@ small {
     margin-bottom: 20px;
 }
 
+.intro {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    padding: 14px 18px;
+    margin: 20px 0;
+    color: var(--body-text);
+    line-height: 1.5;
+}
+
+.intro h2 {
+    margin-bottom: 8px;
+}
+
+.intro p {
+    margin: 0 0 10px;
+}
+
+.intro p:last-child {
+    margin-bottom: 0;
+}
+
+.intro code {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.9em;
+}
+
 .value-panel {
     background: var(--panel);
     border: 1px solid var(--panel-border);

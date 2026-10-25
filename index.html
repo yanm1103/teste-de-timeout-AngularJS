@@ -23,6 +23,23 @@
                 </button>
             </div>
 
+            <section class="intro">
+                <h2>O que é este teste</h2>
+                <p>
+                    O AngularJS só atualiza a tela quando roda um <strong>digest</strong>: um ciclo em que ele compara
+                    cada variável observada com o valor anterior e aplica as diferenças no HTML. Esse ciclo é disparado
+                    automaticamente por tudo que passa pelo Angular, como <code>ng-click</code>, <code>$http</code> e
+                    <code>$timeout</code>. Código que roda fora dele, como um <code>setTimeout</code> puro, altera o
+                    <code>$scope</code> sem que a tela perceba.
+                </p>
+                <p>
+                    Cada botão abaixo altera o mesmo valor de uma forma diferente. Compare o <strong>Valor</strong>
+                    exibido com o <strong>Registro</strong>: o registro escreve direto no DOM e sempre aparece, enquanto
+                    o valor só muda na tela quando um digest acontece. Alguns cenários também escrevem no console do
+                    navegador.
+                </p>
+            </section>
+
             <div class="row row--between value-panel">
                 <div>
                     <strong class="outlined text-secondary">Valor: </strong>
