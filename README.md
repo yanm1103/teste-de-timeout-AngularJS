@@ -51,3 +51,8 @@ Dentro do digest (`ng-click`):
 npm install
 npm run lint
 ```
+
+## CI
+
+O workflow em `.github/workflows/ci.yml` roda o lint em todo push e pull request.
+Em push na `main`, se o lint passar, publica o site no GitHub Pages.
