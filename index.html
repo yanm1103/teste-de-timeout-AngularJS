@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Teste de $scope e $timeout no AngularJS</title>
+        <link rel="icon" type="image/png" href="stomach.png" />
+        <link rel="stylesheet" href="styles.css" />
+        <script defer src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"
+            integrity="sha384-c+qsMuWimzoMxDpSd67QtX89Nctaxh/CBMTgEnKrTahfMz1HgjjwqrzEGYXMZxYi"
+            crossorigin="anonymous"></script>
+        <script defer src="app.js"></script>
+        <script defer src="theme.js"></script>
+    </head>
+
+    <body ng-controller="TestCtrl">
+        <main class="container">
+            <div class="row row--between header">
+                <h1>Teste de $scope e $timeout com variáveis bindadas no template</h1>
+                <button id="theme-toggle" class="btn btn--small" type="button" aria-label="Alternar tema">
+                    🌙 Tema escuro
+                </button>
+            </div>
+
+            <div class="row row--between value-panel">
+                <div>
+                    <strong class="outlined text-secondary">Valor: </strong>
+                    <span ng-bind="value" class="badge"></span>
+                </div>
+                <button class="btn btn--small" ng-click="resetValue()">🗑️ Resetar valor</button>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <button class="btn btn--primary" ng-click="externalWithoutApply()">
+                    Gerar alteração externa SEM $apply
+                </button>
+
+                <button class="btn btn--primary" ng-click="externalWithApply()">
+                    Gerar alteração externa COM $apply
+                </button>
+
+                <button class="btn btn--primary" ng-click="externalWithTimeout()">
+                    Gerar alteração externa COM $timeout
+                </button>
+
+                <button class="btn btn--primary" ng-click="externalWithTimeoutApply()">
+                    Gerar alteração externa COM $timeout (e $apply dentro)
+                </button>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <button class="btn btn--danger" ng-click="forceScopeApply()">
+                    💣 $apply (Erro)
+                </button>
+
+                <button class="btn" ng-click="forceTimeoutScopeApply()">
+                    ♻️ $timeout
+                </button>
+            </div>
+
+            <div class="row row--between">
+                <h4>Registro</h4>
+                <button class="btn btn--small" ng-click="clearLogs()">🗑️ Limpar registro</button>
+            </div>
+            <div id="log" class="log"></div>
+
+            <hr />
+
+            <div class="footer">
+                <small class="outlined">
+                    Teste criado por Yan em 21/01/2026.
+                </small>
+                <small class="outlined">
+                    <strong class="text-secondary">Conclusão:</strong> Devido ao fato do log de $apply aparecer depois do elemento já ter seu conteúdo alterado ao clicar no botão de $timeout + $apply, realmente não parece necessário chamar o $apply após rodar um $timeout.
+                </small>
+            </div>
+        </main>
+    </body>
+
+</html>

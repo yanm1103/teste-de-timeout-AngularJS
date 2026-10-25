@@ -1,0 +1,297 @@
+/* ===== Tema (inspirado no menu do PlayStation 2) ===== */
+
+/* As cores de texto (amarelo, azul, branco) e o contorno preto são
+   iguais nos dois temas; só o fundo e a translucidez dos painéis mudam. */
+:root {
+    --ps2-yellow: #f2e34a;
+    --ps2-blue: #6cc8ff;
+    --ps2-white: #f4f6fb;
+    --ps2-outline: #000;
+
+    /* escuro (padrão) */
+    --bg-top: #0a0d2a;
+    --bg-bottom: #1b2666;
+    --panel: rgba(4, 8, 40, 0.55);
+    --panel-border: rgba(160, 220, 255, 0.35);
+    --log-bg: rgba(0, 0, 0, 0.45);
+    --log-text: var(--ps2-white);
+    --hr: rgba(160, 220, 255, 0.35);
+
+    /* gelo */
+    --ice-fill: rgba(170, 220, 255, 0.18);
+    --ice-fill-hover: rgba(190, 230, 255, 0.30);
+    --ice-edge: rgba(230, 245, 255, 0.75);
+    --ice-shine: rgba(255, 255, 255, 0.55);
+    --ice-side: rgba(90, 160, 220, 0.45);
+    --ice-side-dark: rgba(10, 40, 90, 0.55);
+    --ice-danger-fill: rgba(255, 120, 120, 0.22);
+    --ice-danger-fill-hover: rgba(255, 140, 140, 0.34);
+    --ice-danger-edge: rgba(255, 200, 200, 0.8);
+    --ice-danger-side: rgba(200, 70, 70, 0.5);
+    --ice-danger-side-dark: rgba(90, 10, 10, 0.6);
+
+    color-scheme: dark;
+}
+
+/* claro: fundo azul-céu do PS2, ainda escuro o bastante para o texto branco
+   com contorno preto continuar legível */
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+        --bg-top: #6f9fe0;
+        --bg-bottom: #b9d3f6;
+        --panel: rgba(255, 255, 255, 0.22);
+        --panel-border: rgba(255, 255, 255, 0.6);
+        --log-bg: rgba(10, 30, 80, 0.55);
+        --hr: rgba(255, 255, 255, 0.6);
+        --ice-fill: rgba(255, 255, 255, 0.28);
+        --ice-fill-hover: rgba(255, 255, 255, 0.42);
+        --ice-edge: rgba(255, 255, 255, 0.95);
+        --ice-shine: rgba(255, 255, 255, 0.8);
+        --ice-side: rgba(60, 120, 200, 0.5);
+        --ice-side-dark: rgba(20, 60, 130, 0.6);
+        color-scheme: light;
+    }
+}
+
+:root[data-theme="light"] {
+    --bg-top: #6f9fe0;
+    --bg-bottom: #b9d3f6;
+    --panel: rgba(255, 255, 255, 0.22);
+    --panel-border: rgba(255, 255, 255, 0.6);
+    --log-bg: rgba(10, 30, 80, 0.55);
+    --hr: rgba(255, 255, 255, 0.6);
+    --ice-fill: rgba(255, 255, 255, 0.28);
+    --ice-fill-hover: rgba(255, 255, 255, 0.42);
+    --ice-edge: rgba(255, 255, 255, 0.95);
+    --ice-shine: rgba(255, 255, 255, 0.8);
+    --ice-side: rgba(60, 120, 200, 0.5);
+    --ice-side-dark: rgba(20, 60, 130, 0.6);
+    color-scheme: light;
+}
+
+/* ===== Base ===== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family: "Trebuchet MS", "Segoe UI", Tahoma, sans-serif;
+    font-size: 16px;
+    color: var(--ps2-white);
+    background: radial-gradient(ellipse at 30% 20%, var(--bg-bottom) 0%, var(--bg-top) 75%) fixed;
+    padding: 24px 16px 40px;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* Texto com contorno preto, como no menu do PS2 */
+.outlined,
+h1,
+h2,
+h3,
+h4,
+.btn,
+.badge {
+    -webkit-text-stroke: 1px var(--ps2-outline);
+    paint-order: stroke fill;
+    text-shadow:
+        1px 1px 0 var(--ps2-outline),
+        -1px 1px 0 var(--ps2-outline),
+        1px -1px 0 var(--ps2-outline),
+        -1px -1px 0 var(--ps2-outline);
+    letter-spacing: 0.02em;
+}
+
+.text-primary {
+    color: var(--ps2-yellow);
+}
+
+.text-secondary {
+    color: var(--ps2-blue);
+}
+
+h1 {
+    color: var(--ps2-yellow);
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+h4 {
+    color: var(--ps2-blue);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--hr);
+    margin: 16px 0;
+}
+
+small {
+    display: block;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* ===== Layout ===== */
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin: 12px 0;
+}
+
+.row--between {
+    justify-content: space-between;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.value-panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    padding: 14px 18px;
+    margin: 20px 0;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+/* ===== Badge ===== */
+
+.badge {
+    display: inline-block;
+    color: var(--ps2-yellow);
+    font-weight: 600;
+    padding: 0.2em 0.6em;
+    border: 1px solid var(--panel-border);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Botões de gelo ===== */
+
+.btn {
+    --fill: var(--ice-fill);
+    --fill-hover: var(--ice-fill-hover);
+    --edge: var(--ice-edge);
+    --side: var(--ice-side);
+    --side-dark: var(--ice-side-dark);
+    --depth: 5px;
+
+    position: relative;
+    appearance: none;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    color: var(--ps2-white);
+    padding: 12px 18px;
+    border: 1px solid var(--edge);
+    border-radius: 0;
+    background: var(--fill);
+    backdrop-filter: blur(6px) saturate(140%);
+    -webkit-backdrop-filter: blur(6px) saturate(140%);
+    box-shadow:
+        /* brilho interno no topo e na esquerda, como aresta de gelo */
+        inset 1px 1px 0 var(--ice-shine),
+        inset 0 0 18px rgba(255, 255, 255, 0.12),
+        /* sombra interna na base, dá volume ao bloco */
+        inset -1px -2px 0 var(--side),
+        /* lateral do bloco (3D) */
+        0 1px 0 var(--side),
+        0 2px 0 var(--side),
+        0 3px 0 var(--side-dark),
+        0 4px 0 var(--side-dark),
+        0 var(--depth) 0 var(--side-dark),
+        /* projeção no "chão" */
+        0 10px 16px rgba(0, 0, 0, 0.35);
+    transform: translateY(0);
+    transition: transform 80ms ease, box-shadow 80ms ease, background-color 120ms ease;
+}
+
+/* reflexo diagonal, como luz atravessando o gelo */
+.btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        115deg,
+        rgba(255, 255, 255, 0) 30%,
+        rgba(255, 255, 255, 0.28) 45%,
+        rgba(255, 255, 255, 0) 60%
+    );
+    pointer-events: none;
+}
+
+.btn:hover {
+    background: var(--fill-hover);
+}
+
+.btn:active {
+    transform: translateY(var(--depth));
+    box-shadow:
+        inset 1px 1px 0 var(--ice-shine),
+        inset -1px -2px 0 var(--side),
+        0 0 0 var(--side-dark),
+        0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--ps2-yellow);
+    outline-offset: 3px;
+}
+
+.btn--primary {
+    color: var(--ps2-yellow);
+}
+
+.btn--danger {
+    --fill: var(--ice-danger-fill);
+    --fill-hover: var(--ice-danger-fill-hover);
+    --edge: var(--ice-danger-edge);
+    --side: var(--ice-danger-side);
+    --side-dark: var(--ice-danger-side-dark);
+}
+
+.btn--small {
+    --depth: 4px;
+    padding: 7px 12px;
+    font-size: 0.9rem;
+}
+
+/* ===== Log ===== */
+
+.log {
+    margin-top: 10px;
+    padding: 10px 12px;
+    min-height: 60px;
+    max-height: 220px;
+    overflow-y: auto;
+    resize: vertical;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--log-text);
+    background: var(--log-bg);
+    border: 1px solid var(--panel-border);
+}

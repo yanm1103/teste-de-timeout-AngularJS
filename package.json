@@ -1,0 +1,14 @@
+{
+  "name": "teste-de-timeout-angularjs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demonstração do digest cycle do AngularJS com setTimeout, $timeout e $apply",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0"
+  }
+}
